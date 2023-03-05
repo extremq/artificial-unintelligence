@@ -10,9 +10,9 @@ Who knows how much they will do in the future. Humans are
 slow and error-prone, but a machine never is.", they added.
 
 And so it started. There were no more teachers, you would just
-ask your AI chatbot to tell you about the subject. Actually,
+ask your AI chatbot to teach you whatever you wanted to learn. Actually,
 why learn anything? You can always ask the chatbot
-to provide you with answers. Want to paint? Just ask the
+to provide you with answers, no need to waste time memorizing. Want to paint? Just ask the
 chatbot to paint for you. Want to compose music? Tell your chatbot some lyrics and off you go.
 Nothing was out of reach for these algorithmic beings.
 
