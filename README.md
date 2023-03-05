@@ -26,7 +26,7 @@ self-driving cars weren't trained for such conditions, so they crashed frequentl
 Drawings started to get a bit repetitive. All music had the exact same
 chord progressions. Everything became stale and boring.
 
-However, a student from Romania's top university of engineering
+But a student from Romania's top university of engineering
 never let maths down and taught himself machine learning in order
 to clean up this mess. He didn't want our future to be
 comprised of metal beings. Instead, he wanted humans to yet again 
