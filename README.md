@@ -17,7 +17,7 @@ chatbot to paint for you. Want to compose music? Tell your chatbot some lyrics a
 Nothing was out of reach for these algorithmic beings.
 
 Humans became more and more dependent on machines. They
-considered machines an evolution step, something that we 
+considered machines to be an evolution step, something that we 
 shall transition into.
 
 However, these wonderful, error-prone machines weren't as great as they
