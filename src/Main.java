@@ -1,5 +1,7 @@
+import game.graphics.Window;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println(System.nanoTime());
+        Window window = new Window("Game", 1280, 720);
     }
 }

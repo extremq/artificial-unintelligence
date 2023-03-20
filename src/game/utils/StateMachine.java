@@ -1,4 +1,4 @@
-package engine.utils;
+package game.utils;
 
 import java.security.InvalidParameterException;
 import java.util.Objects;
