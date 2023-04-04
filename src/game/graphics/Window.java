@@ -5,9 +5,9 @@ import java.awt.*;
 
 public class Window {
     private JFrame frame;
-    private String title;
-    private int width;
-    private int height;
+    private final String title;
+    private final int width;
+    private final int height;
     private Canvas canvas;
 
     public Window(String title, int width, int height){

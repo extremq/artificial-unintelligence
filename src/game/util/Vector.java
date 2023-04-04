@@ -1,4 +1,4 @@
-package game.utils;
+package game.util;
 
 /***
  * From <a href="https://gist.github.com/gunvirranu/6816d65c0231981787ebefd3bdb61f98">here</a>.
@@ -63,6 +63,12 @@ public class Vector {
         return Math.sqrt(vx * vx + vy * vy);
     }
 
+    public static double distance(Vector a, Vector b) {
+        double dx = a.x - b.x;
+        double dy = a.y - b.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
     public double distance(Vector v) {
         double vx = v.x - this.x;
         double vy = v.y - this.y;
@@ -75,12 +81,16 @@ public class Vector {
 
     public void normalize() {
         double magnitude = getLength();
+        if (magnitude == 0.0f) return;
         x /= magnitude;
         y /= magnitude;
     }
 
     public Vector getNormalized() {
         double magnitude = getLength();
+
+        if (magnitude == 0.0f) return new Vector(0, 0);
+
         return new Vector(x / magnitude, y / magnitude);
     }
 

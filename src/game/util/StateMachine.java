@@ -1,4 +1,4 @@
-package game.utils;
+package game.util;
 
 import java.security.InvalidParameterException;
 import java.util.Objects;
@@ -10,8 +10,9 @@ public class StateMachine {
     /**
      * @param states The states of the state machine. Once set, they are read-only.
      */
-    public StateMachine(String[] states) {
+    public StateMachine(String[] states, String startState) {
         this.states = states;
+        this.currentState = startState;
     }
 
     /**
