@@ -183,9 +183,9 @@ public class Engine {
 
             // draw the text at the specified location
             try {
-                graphics.drawString("Time:" + String.valueOf(PlayerManager.getInstance().getScore()), 500, 50);
+                graphics.drawString("Score:" + String.valueOf(PlayerManager.getInstance().getScore()), 500, 50);
                 graphics.drawString("HP:" + (int) PlayerManager.getInstance().getPlayer().getCurrentHitPoints(), 290, 50);
-                graphics.drawString("Score:" + String.valueOf(PlayerManager.getInstance().getElapsedTimeInSeconds()), 50, 50);
+                graphics.drawString("Time:" + String.valueOf(PlayerManager.getInstance().getElapsedTimeInSeconds()), 50, 50);
             }
             catch (PlayerNotCreatedException exception) {
                 exception.printStackTrace();
