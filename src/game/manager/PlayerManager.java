@@ -4,12 +4,16 @@ import game.Engine;
 import game.assets.Assets;
 import game.entity.Entity;
 import game.entity.EntityWithHealth;
+import game.entity.TileEntity;
 import game.util.Keyboard;
 import game.util.Time;
 import game.util.Vector;
+import game.util.Collisions;
 
 import java.awt.event.KeyEvent;
 import java.io.*;
+
+import static game.util.Collisions.solveCircleSquareCollision;
 
 public class PlayerManager extends Manager {
     private static PlayerManager instance = null;
@@ -250,9 +254,24 @@ public class PlayerManager extends Manager {
                 newPosition.y = 360;
             }
 
+            // Check if player is in collision with tiles
+            for (Entity tileEntity : TileManager.getInstance().getEntityList()) {
+                TileEntity tile = (TileEntity) tileEntity;
+
+                if (!tile.isCollideable())
+                    continue;
+
+                // Tiles are squares and the player is a circle
+                // So we need to check if the distance between the center of the circle and the center of the square is less than the radius of the circle
+                // If it is, then the player is in collision with the tile
+                getPlayer().setPosition(solveCircleSquareCollision(newPosition, getPlayer().getHitboxRadius(), tile.getPosition(), tile.getSprite().getHeight()));
+            }
+
+
             getPlayer().setPosition(newPosition);
         } catch (PlayerNotCreatedException exp) {
             exp.printStackTrace();
         }
     }
+
 }

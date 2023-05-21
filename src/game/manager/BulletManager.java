@@ -4,6 +4,7 @@ import game.assets.Assets;
 import game.entity.BulletEntity;
 import game.entity.EnemyEntity;
 import game.entity.Entity;
+import game.entity.TileEntity;
 import game.util.Vector;
 
 public class BulletManager extends Manager {
@@ -46,6 +47,34 @@ public class BulletManager extends Manager {
                     break;
                 }
             }
+
+            // Compute collision with tiles
+            // Tiles have a square hitbox
+            for (Entity tileEntity: TileManager.getInstance().getEntityList()) {
+                TileEntity tile = (TileEntity) tileEntity;
+
+                if (tile.getSprite() == null)
+                    continue;
+
+                // Check if tile has collision enabled
+                if (!tile.isCollideable())
+                    continue;
+
+                Vector tilePosition = tile.getPosition();
+                double tileWidth = tile.getSprite().getWidth();
+                double tileHeight = tile.getSprite().getHeight();
+
+                // If hit
+                if (bulletEntity.getPosition().x >= tilePosition.x - tileWidth / 2 && bulletEntity.getPosition().x <= tilePosition.x + tileWidth / 2 &&
+                    bulletEntity.getPosition().y >= tilePosition.y - tileHeight / 2 && bulletEntity.getPosition().y <= tilePosition.y + tileHeight / 2) {
+                    bulletEntity.destroy();
+
+                    // Do not allow for multiple hits at once.
+                    break;
+                }
+            }
+
+
 
             // Unload far away bullets
             if (Vector.distance(new Vector(0, 0), bulletEntity.getPosition()) > 1000) {

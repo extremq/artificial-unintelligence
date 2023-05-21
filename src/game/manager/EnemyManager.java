@@ -6,8 +6,12 @@ import game.assets.Assets;
 import game.entity.EnemyEntity;
 import game.entity.Entity;
 import game.entity.EntityWithHealth;
+import game.entity.TileEntity;
 import game.util.Time;
 import game.util.Vector;
+import game.util.Collisions.*;
+
+import static game.util.Collisions.solveCircleSquareCollision;
 
 public class EnemyManager extends Manager {
     private static EnemyManager instance = null;
@@ -95,6 +99,23 @@ public class EnemyManager extends Manager {
                 // If hit player, subtract some health
                 if (Vector.distance(enemyEntity.getPosition(), player.getPosition()) <= enemyEntity.getHitboxRadius() + player.getHitboxRadius()) {
                     player.subtractHitpoints(enemyEntity.getAttackDamage());
+                }
+
+                // Check if enemy is in collision with a tile
+                for (Entity tileEntity: TileManager.getInstance().getEntityList()) {
+                    TileEntity tile = (TileEntity) tileEntity;
+
+                    // Tiles have a square hitbox
+                    if (tile.getSprite() == null)
+                        continue;
+
+                    // Check if tile has collision enabled
+                    if (!tile.isCollideable())
+                        continue;
+
+                    // If hit
+                    // Use utils.collision
+                    enemyEntity.setPosition(solveCircleSquareCollision(enemyEntity.getPosition(), enemyEntity.getHitboxRadius(), tile.getPosition(), tile.getSprite().getWidth()));
                 }
             }
         } catch (PlayerNotCreatedException exp) {

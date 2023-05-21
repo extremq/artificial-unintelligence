@@ -15,4 +15,7 @@ public class Assets {
             ImageLoader.LoadImage("res/tiles/grass.jpg");
     public static BufferedImage mainMenu =
             ImageLoader.LoadImage("res/tiles/title.png");
+
+    public static BufferedImage stoneTile =
+            ImageLoader.LoadImage("res/tiles/stone.png");
 }
