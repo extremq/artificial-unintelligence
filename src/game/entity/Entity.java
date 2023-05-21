@@ -8,6 +8,11 @@ import static game.assets.Assets.invalidSprite;
 
 public class Entity {
     private static long entityCounter = 0;
+    private final long id = entityCounter++;
+    private final Vector position = new Vector();
+    private BufferedImage sprite = invalidSprite;
+    private Boolean isDestroyed = false;
+    private double hitboxRadius = 0;
 
     public double getHitboxRadius() {
         return hitboxRadius;
@@ -17,16 +22,9 @@ public class Entity {
         this.hitboxRadius = hitboxRadius;
     }
 
-    private double hitboxRadius = 0;
-
     public long getId() {
         return id;
     }
-
-    private final long id = entityCounter++;
-    private final Vector position = new Vector();
-    private BufferedImage sprite = invalidSprite;
-    private Boolean isDestroyed = false;
 
     public BufferedImage getSprite() {
         return sprite;

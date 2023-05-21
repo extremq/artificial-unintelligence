@@ -7,8 +7,12 @@ public class Assets {
             ImageLoader.LoadImage("res/tiles/invalid.png");
     public static BufferedImage bulletSprite =
             ImageLoader.LoadImage("res/tiles/bullet.png");
-    public static BufferedImage enemySprite =
-            ImageLoader.LoadImage("res/tiles/enemy.png");
+    public static BufferedImage enemy1Sprite =
+            ImageLoader.LoadImage("res/tiles/enemy1.png");
+    public static BufferedImage enemy2Sprite =
+            ImageLoader.LoadImage("res/tiles/enemy2.png");
+    public static BufferedImage enemy3Sprite =
+            ImageLoader.LoadImage("res/tiles/enemy3.png");
     public static BufferedImage playerSprite =
             ImageLoader.LoadImage("res/tiles/player.png");
     public static BufferedImage grassTile =

@@ -2,5 +2,4 @@ elapsedTimeInSeconds=0
 bulletCountPlus=0
 score=0
 shootingSpeedMultiplier=1
-damageMultiplier=1
 movementSpeedMultiplier=1

@@ -1,17 +1,16 @@
 package game.entity;
 
 public class EntityWithHealth extends Entity {
-    double maximumHitPoints = 100.0f;
+    double maximumHitPoints;
+    double currentHitPoints;
+
+    public void setMaximumHitPoints(double maximumHitPoints) {
+        this.maximumHitPoints = maximumHitPoints;
+        this.currentHitPoints = maximumHitPoints;
+    }
 
     public double getCurrentHitPoints() {
         return currentHitPoints;
-    }
-
-    double currentHitPoints = 100.0f;
-
-    public EntityWithHealth(double hitPoints) {
-        super();
-        maximumHitPoints = currentHitPoints = hitPoints;
     }
 
     public void subtractHitpoints(double amount) {

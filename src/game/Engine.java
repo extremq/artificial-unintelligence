@@ -185,7 +185,7 @@ public class Engine {
             try {
                 graphics.drawString("Score:" + String.valueOf(PlayerManager.getInstance().getScore()), 500, 50);
                 graphics.drawString("HP:" + (int) PlayerManager.getInstance().getPlayer().getCurrentHitPoints(), 290, 50);
-                graphics.drawString("Time:" + String.valueOf(PlayerManager.getInstance().getElapsedTimeInSeconds()), 50, 50);
+                graphics.drawString("Level:" + String.valueOf(EnemyManager.getInstance().getLevel()), 50, 50);
             }
             catch (PlayerNotCreatedException exception) {
                 exception.printStackTrace();

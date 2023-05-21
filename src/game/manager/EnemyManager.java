@@ -7,8 +7,7 @@ import game.entity.EnemyEntity;
 import game.entity.Entity;
 import game.entity.EntityWithHealth;
 import game.entity.TileEntity;
-import game.util.Time;
-import game.util.Vector;
+import game.util.*;
 import game.util.Collisions.*;
 
 import static game.util.Collisions.solveCircleSquareCollision;
@@ -27,9 +26,9 @@ public class EnemyManager extends Manager {
 
     }
 
-    public void createWave(double amount, double health, double speed, double attackDamage) {
+    public void createWave(double amount, EntityTypes type) {
         while (amount-- > 0) {
-            createEnemy(health, speed, attackDamage);
+            createEnemy(type);
         }
     }
 
@@ -37,10 +36,24 @@ public class EnemyManager extends Manager {
         lastElapsedTime = -10;
     }
 
-    public void createEnemy(double health, double speed, double attackDamage) {
-        EnemyEntity enemy = new EnemyEntity(health, speed, attackDamage);
-
-        enemy.setSprite(Assets.enemySprite);
+    public void createEnemy(EntityTypes type) {
+        EnemyEntityBuilder builder = new EnemyEntityBuilder();
+        EntityBuilderDirector director = new EntityBuilderDirector(builder);
+        EnemyEntity enemy = null;
+        switch (type) {
+            case ENEMY1 -> {
+                director.make(EntityTypes.ENEMY1, new Vector(0, 0));
+                enemy = builder.getEntity();
+            }
+            case ENEMY2 -> {
+                director.make(EntityTypes.ENEMY2, new Vector(0, 0));
+                enemy = builder.getEntity();
+            }
+            case ENEMY3 -> {
+                director.make(EntityTypes.ENEMY3, new Vector(0, 0));
+                enemy = builder.getEntity();
+            }
+        }
 
         Random random = new Random();
 
@@ -65,6 +78,11 @@ public class EnemyManager extends Manager {
 
     private long currentWave = 0;
     private long lastElapsedTime = -10;
+    private long level = 1;
+
+    public long getLevel() {
+        return level;
+    }
     @Override
     void innerUpdate() {
         if (!PlayerManager.getInstance().playerAlive()) return;
@@ -72,7 +90,9 @@ public class EnemyManager extends Manager {
         long elapsedTime = PlayerManager.getInstance().getElapsedTimeInSeconds();
 
         // Automatic creation of waves
-        if (elapsedTime >= lastElapsedTime + 10) {
+        // Random offset
+        float offset = (float) (Math.random() * 5 + 1);
+        if (elapsedTime >= lastElapsedTime + offset) {
             lastElapsedTime = elapsedTime;
             currentWave = elapsedTime / 20 + 1;
 
@@ -84,7 +104,18 @@ public class EnemyManager extends Manager {
                 exp.printStackTrace();
             }
 
-            createWave(elapsedTime + 5, 100 + 25 * currentWave, 100.0f + 1.0f * currentWave, currentWave);
+            if (currentWave > 5 && currentWave <= 10) {
+                level = 2;
+                createWave(10, EntityTypes.ENEMY2);
+            }
+            else if (currentWave > 10) {
+                level = 3;
+                createWave(17, EntityTypes.ENEMY3);
+            }
+            else {
+                level = 1;
+                createWave(5, EntityTypes.ENEMY1);
+            }
         }
 
         try {

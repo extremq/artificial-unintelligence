@@ -5,6 +5,9 @@ import game.entity.BulletEntity;
 import game.entity.EnemyEntity;
 import game.entity.Entity;
 import game.entity.TileEntity;
+import game.util.BulletEntityBuilder;
+import game.util.EntityBuilderDirector;
+import game.util.EntityTypes;
 import game.util.Vector;
 
 public class BulletManager extends Manager {
@@ -22,8 +25,14 @@ public class BulletManager extends Manager {
     }
 
     public void createBullet(double speed, Vector direction, Vector start, double damage) {
-        BulletEntity entity = new BulletEntity(speed, direction, start, damage);
-        entity.setSprite(Assets.bulletSprite);
+        BulletEntityBuilder builder = new BulletEntityBuilder();
+        EntityBuilderDirector director = new EntityBuilderDirector(builder);
+        director.make(EntityTypes.BULLET, start);
+
+        BulletEntity entity = builder.getEntity();
+        entity.setSpeed(speed);
+        entity.setDirectionVector(direction);
+        entity.setDamage(damage);
 
         entityList.add(entity);
     }

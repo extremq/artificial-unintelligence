@@ -5,10 +5,7 @@ import game.assets.Assets;
 import game.entity.Entity;
 import game.entity.EntityWithHealth;
 import game.entity.TileEntity;
-import game.util.Keyboard;
-import game.util.Time;
-import game.util.Vector;
-import game.util.Collisions;
+import game.util.*;
 
 import java.awt.event.KeyEvent;
 import java.io.*;
@@ -25,7 +22,6 @@ public class PlayerManager extends Manager {
     private double startTime = 0;
     private long score = 0;
     private double shootingSpeedMultiplier = 1.0f;
-    private double damageMultiplier = 1.0f;
     private double movementSpeedMultiplier = 1.0f;
     private static final double BULLET_DAMAGE = 50.0f;
     private static final double MOVEMENT_SPEED = 150.0f;
@@ -61,7 +57,10 @@ public class PlayerManager extends Manager {
         playerHasDied = false;
 
         // Create player entity and set sprite
-        EntityWithHealth entity = new EntityWithHealth(100.0f);
+        EntityWithHealthBuilder builder = new EntityWithHealthBuilder();
+        EntityBuilderDirector director = new EntityBuilderDirector(builder);
+        director.make(EntityTypes.PLAYER, new Vector(0, 0));
+        EntityWithHealth entity = builder.getEntity();
         entity.setSprite(Assets.playerSprite);
 
         entityList.add(entity);
@@ -123,11 +122,10 @@ public class PlayerManager extends Manager {
         FileWriter fw = new FileWriter("save.txt");
         fw.write(
                 "elapsedTimeInSeconds=0\n" +
-                        "bulletCountPlus=0\n" +
-                        "score=0\n" +
-                        "shootingSpeedMultiplier=1\n" +
-                        "damageMultiplier=1\n" +
-                        "movementSpeedMultiplier=1"
+                    "bulletCountPlus=0\n" +
+                    "score=0\n" +
+                    "shootingSpeedMultiplier=1\n" +
+                    "movementSpeedMultiplier=1"
         );
         fw.close();
 
@@ -137,7 +135,6 @@ public class PlayerManager extends Manager {
         bulletCountPlus = 0;
         score = 0;
         shootingSpeedMultiplier = 1;
-        damageMultiplier = 1;
         movementSpeedMultiplier = 1;
         lastShootingTime = 0;
     }
@@ -160,6 +157,8 @@ public class PlayerManager extends Manager {
                 stats[counter++] = Double.parseDouble(line.split("=")[1]);
             }
 
+            br.close();
+
             // Load them up
             elapsedTimeInSeconds = (long) stats[0];
 
@@ -168,8 +167,7 @@ public class PlayerManager extends Manager {
             bulletCountPlus = (int) stats[1];
             score = (long) stats[2];
             shootingSpeedMultiplier = stats[3];
-            damageMultiplier = stats[4];
-            movementSpeedMultiplier = stats[5];
+            movementSpeedMultiplier = stats[4];
         } catch (IOException exp) {
             // File is empty actually, so make a blank save
             try {
@@ -184,11 +182,10 @@ public class PlayerManager extends Manager {
         FileWriter fw = new FileWriter("save.txt");
         fw.write(
                 "elapsedTimeInSeconds=" + elapsedTimeInSeconds + "\n" +
-                        "bulletCountPlus=" + bulletCountPlus + "\n" +
-                        "score=" + score + "\n" +
-                        "shootingSpeedMultiplier=" + shootingSpeedMultiplier + "\n" +
-                        "damageMultiplier=" + damageMultiplier + "\n" +
-                        "movementSpeedMultiplier=" + movementSpeedMultiplier
+                    "bulletCountPlus=" + bulletCountPlus + "\n" +
+                    "score=" + score + "\n" +
+                    "shootingSpeedMultiplier=" + shootingSpeedMultiplier + "\n" +
+                    "movementSpeedMultiplier=" + movementSpeedMultiplier
         );
         fw.close();
 
@@ -200,9 +197,8 @@ public class PlayerManager extends Manager {
 
     void evolvePlayer() {
         bulletCountPlus = (int) (elapsedTimeInSeconds / 25);
-        shootingSpeedMultiplier = 1.0f + elapsedTimeInSeconds / 100.0f + score / 1000.0f;
-        damageMultiplier = 1.0f + elapsedTimeInSeconds / 50.0f + score / 1000.0f;
-        movementSpeedMultiplier = 1.0f + elapsedTimeInSeconds / 200.0f + score / 1000.0f;
+        shootingSpeedMultiplier = Math.min(1.0f + elapsedTimeInSeconds / 100.0f + score / 1000.0f, 4.0f);
+        movementSpeedMultiplier = Math.min(1.0f + elapsedTimeInSeconds / 200.0f + score / 1000.0f, 1.25f);
     }
 
     void shoot() {
@@ -220,7 +216,7 @@ public class PlayerManager extends Manager {
                         300,
                         startingVector.getRotatedBy(i * step),
                         getPlayer().getPosition(),
-                        50 * damageMultiplier
+                        BULLET_DAMAGE
                 );
             }
 
