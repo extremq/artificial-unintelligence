@@ -8,13 +8,14 @@ import game.util.StateMachine;
 import game.util.Time;
 import game.util.Vector;
 
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.security.InvalidParameterException;
 import java.util.List;
-import java.util.Objects;
+import java.sql.*;
 
 public class Engine {
     private static Engine instance = null;
@@ -95,6 +96,7 @@ public class Engine {
                     BulletManager.getInstance().removeAllEntities();
 
                     // Show score
+                    UIManager.getInstance().createScore();
                 }
             }
 
@@ -161,6 +163,7 @@ public class Engine {
         // Need to use the graphics to render sprites as per the java library
         Graphics graphics = bufferStrategy.getDrawGraphics();
 
+
         // Clear the whole screen
         graphics.clearRect(
                 0, 0,
@@ -190,6 +193,29 @@ public class Engine {
             catch (PlayerNotCreatedException exception) {
                 exception.printStackTrace();
             }
+        }
+        else if (gameState.getCurrentState().equals("Score")) {
+            graphics.setColor(Color.DARK_GRAY);
+
+            // set the font size and style
+            graphics.setFont(new Font("Consolas", Font.PLAIN, 36));
+
+            // draw the text at the specified location
+            graphics.drawString(String.valueOf(PlayerManager.getInstance().getPersistentScore()), 350, 193);
+
+            // Draw the database scores
+            var scores = DatabaseManager.getInstance().getScores();
+            int counter = 0;
+            for (var score : scores) {
+                if (score[0] == null || score[1] == null) {
+                    break;
+                }
+                graphics.drawString(score[0], 140, 300 + counter * 50);
+                graphics.drawString(String.valueOf(score[1]), 450, 300 + counter * 50);
+                counter++;
+            }
+
+
         }
 
         // Commit and display the sprites

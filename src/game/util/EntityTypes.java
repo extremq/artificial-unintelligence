@@ -8,5 +8,6 @@ public enum EntityTypes {
     ENEMY3,
     GRASS_TILE,
     STONE_TILE,
-    BULLET
+    BULLET,
+    ASPHALT_TILE,
 }

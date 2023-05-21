@@ -17,8 +17,12 @@ public class Assets {
             ImageLoader.LoadImage("res/tiles/player.png");
     public static BufferedImage grassTile =
             ImageLoader.LoadImage("res/tiles/grass.jpg");
+    public static BufferedImage asphaltTile =
+            ImageLoader.LoadImage("res/tiles/asphalt.png");
     public static BufferedImage mainMenu =
             ImageLoader.LoadImage("res/tiles/title.png");
+    public static BufferedImage scoreMenu =
+            ImageLoader.LoadImage("res/tiles/score.png");
 
     public static BufferedImage stoneTile =
             ImageLoader.LoadImage("res/tiles/stone.png");

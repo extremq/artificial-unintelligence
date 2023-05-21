@@ -9,6 +9,12 @@ import game.util.*;
 
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static game.util.Collisions.solveCircleSquareCollision;
 
@@ -21,6 +27,7 @@ public class PlayerManager extends Manager {
     private long elapsedTimeInSeconds = 0;
     private double startTime = 0;
     private long score = 0;
+    private long persistentScore = 0;
     private double shootingSpeedMultiplier = 1.0f;
     private double movementSpeedMultiplier = 1.0f;
     private static final double BULLET_DAMAGE = 50.0f;
@@ -75,6 +82,7 @@ public class PlayerManager extends Manager {
     @Override
     void onEntityDestruction(Entity entity) {
         // If player has died, trigger a sequence of events
+        persistentScore = score;
 
         // Reset progress
         try {
@@ -83,8 +91,15 @@ public class PlayerManager extends Manager {
             exp.printStackTrace();
         }
 
+        // Update database
+        DatabaseManager.getInstance().addScore(java.time.LocalDate.now().toString(), persistentScore);
+
         // Switch to Score scene
         Engine.getInstance().transitionTo("Score");
+    }
+
+    public long getPersistentScore() {
+        return persistentScore;
     }
 
     @Override
@@ -119,7 +134,7 @@ public class PlayerManager extends Manager {
     }
 
     public void resetStats() throws IOException {
-        FileWriter fw = new FileWriter("save.txt");
+        FileWriter fw = new FileWriter("res/save.txt");
         fw.write(
                 "elapsedTimeInSeconds=0\n" +
                     "bulletCountPlus=0\n" +
@@ -143,7 +158,7 @@ public class PlayerManager extends Manager {
         try {
             // Read save file
             File file = new File(
-                    "save.txt");
+                    "res/save.txt");
 
             BufferedReader br
                     = new BufferedReader(new FileReader(file));
@@ -179,7 +194,7 @@ public class PlayerManager extends Manager {
     }
 
     public void saveStats() throws IOException {
-        FileWriter fw = new FileWriter("save.txt");
+        FileWriter fw = new FileWriter("res/save.txt");
         fw.write(
                 "elapsedTimeInSeconds=" + elapsedTimeInSeconds + "\n" +
                     "bulletCountPlus=" + bulletCountPlus + "\n" +

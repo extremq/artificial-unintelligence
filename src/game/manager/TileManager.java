@@ -42,7 +42,7 @@ public class TileManager extends Manager {
                 if (line.charAt(i) == '1') {
                     map[i][counter] = TileType.STONE;
                 } else {
-                    map[i][counter] = TileType.GRASS;
+                    map[i][counter] = TileType.ASPHALT;
                 }
             }
             ++counter;
@@ -72,14 +72,15 @@ public class TileManager extends Manager {
                 switch (map[i][j]) {
                     case INVALID, GRASS -> director.make(EntityTypes.GRASS_TILE, new Vector(0, 0));
                     case STONE -> director.make(EntityTypes.STONE_TILE, new Vector(0, 0));
+                    case ASPHALT -> director.make(EntityTypes.ASPHALT_TILE, new Vector(0, 0));
                 }
 
                 tile = builder.getEntity();
                 tile.setPosition(
-                        new Vector(
-                                (i + 0.5f) * tile.getSprite().getHeight() - 360,
-                                (j + 0.5f) * tile.getSprite().getWidth() - 360
-                        )
+                    new Vector(
+                    (i + 0.5f) * tile.getSprite().getHeight() - 360,
+                    (j + 0.5f) * tile.getSprite().getWidth() - 360
+                    )
                 );
 
                 entityList.add(tile);

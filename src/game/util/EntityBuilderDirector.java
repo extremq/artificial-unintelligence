@@ -48,6 +48,11 @@ public class EntityBuilderDirector {
                 builder.setSprite(Assets.bulletSprite);
                 builder.buildRest(EntityTypes.BULLET);
             }
+            case ASPHALT_TILE -> {
+                builder.setPosition(position);
+                builder.setSprite(Assets.asphaltTile);
+                builder.buildRest(EntityTypes.ASPHALT_TILE);
+            }
         }
     }
 

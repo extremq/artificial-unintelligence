@@ -96,9 +96,9 @@ public class EnemyManager extends Manager {
             lastElapsedTime = elapsedTime;
             currentWave = elapsedTime / 20 + 1;
 
-            // Add 50 hitpoints each round start
+            // Add 10 hitpoints each round start
             try {
-                PlayerManager.getInstance().getPlayer().addHitpoints(50);
+                PlayerManager.getInstance().getPlayer().addHitpoints(10);
             }
             catch (PlayerNotCreatedException exp) {
                 exp.printStackTrace();

@@ -20,12 +20,8 @@ public class TileEntityBuilder implements EntityBuilder {
     @Override
     public void buildRest(EntityTypes type){
         switch (type) {
-            case STONE_TILE -> {
-                tileEntity.setCollideable(true);
-            }
-            case GRASS_TILE -> {
-                tileEntity.setCollideable(false);
-            }
+            case STONE_TILE -> tileEntity.setCollideable(true);
+            case GRASS_TILE, ASPHALT_TILE -> tileEntity.setCollideable(false);
         }
     }
 
